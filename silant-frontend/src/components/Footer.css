@@ -1,0 +1,46 @@
+.footer {
+  background-color: #163E6C;
+  color: #EBE6D6;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'PT Astra Sans', sans-serif;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.footer-logo {
+  height: 80px;
+  margin: 0 20px;
+}
+
+.contact-info, .year-info {
+  flex: 1;
+  text-align: center;
+}
+
+.contact-info {
+  text-align: left;
+}
+
+.year-info {
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+  }
+
+  .footer-logo {
+    height: 60px;
+    margin: 10px 0;
+  }
+
+  .contact-info, .year-info {
+    text-align: center;
+  }
+}

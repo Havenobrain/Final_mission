@@ -1,0 +1,44 @@
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #163E6C;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #D20A11;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.tabs button:hover {
+  background-color: #163E6C;
+}
+
+.tabs button.active {
+  background-color: #163E6C;
+  font-weight: bold;
+}
+
+.tab-content {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
