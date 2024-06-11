@@ -1,37 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import apiClient from '../apiClient';  
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MachineTable from './MachineTable';
 import MaintenanceTable from './MaintenanceTable';
 import ComplaintTable from './ComplaintTable';
 import './MainPage.css';
+import apiClient from '../apiClient';
 
 const MainPage = () => {
   const [activeTab, setActiveTab] = useState('info');
-  const [machines, setMachines] = useState([]);
   const [maintenances, setMaintenances] = useState([]);
   const [complaints, setComplaints] = useState([]);
+  const navigate = useNavigate();
+
+  const fetchData = useCallback(async () => {
+    try {
+      await fetchMaintenances();
+      await fetchComplaints();
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      navigate('/login'); 
+    }
+  }, [navigate]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const machinesResponse = await apiClient.get('/machines/');
-        console.log('Machines data:', machinesResponse.data);
-        setMachines(machinesResponse.data);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+    } else {
+      fetchData();
+    }
+  }, [navigate, fetchData]);
 
-        const maintenancesResponse = await apiClient.get('/maintenances/');
-        console.log('Maintenances data:', maintenancesResponse.data);
-        setMaintenances(maintenancesResponse.data);
+  const fetchMaintenances = async () => {
+    try {
+      const response = await apiClient.get('/maintenances/');
+      const data = response.data;
+      console.log('Maintenances data:', data);
+      setMaintenances(data);
+    } catch (error) {
+      console.error('Error fetching maintenances:', error);
+      throw error; // Бросить ошибку для обработки в fetchData
+    }
+  };
 
-        const complaintsResponse = await apiClient.get('/complaints/');
-        console.log('Complaints data:', complaintsResponse.data);
-        setComplaints(complaintsResponse.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const fetchComplaints = async () => {
+    try {
+      const response = await apiClient.get('/complaints/');
+      const data = response.data;
+      console.log('Complaints data:', data);
+      setComplaints(data);
+    } catch (error) {
+      console.error('Error fetching complaints:', error);
+      throw error; // Бросить ошибку для обработки в fetchData
+    }
+  };
 
   return (
     <div className="main-container">
@@ -41,7 +63,7 @@ const MainPage = () => {
         <button onClick={() => setActiveTab('to')}>ТО</button>
         <button onClick={() => setActiveTab('complaints')}>Рекламации</button>
       </div>
-      {activeTab === 'info' && <MachineTable data={machines} />}
+      {activeTab === 'info' && <MachineTable />}
       {activeTab === 'to' && <MaintenanceTable data={maintenances} />}
       {activeTab === 'complaints' && <ComplaintTable data={complaints} />}
     </div>
@@ -49,5 +71,22 @@ const MainPage = () => {
 };
 
 export default MainPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

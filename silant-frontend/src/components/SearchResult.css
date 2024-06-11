@@ -1,0 +1,36 @@
+/* SearchResult.css */
+.search-results {
+    margin-top: 20px;
+  }
+  
+  .search-results p {
+    text-align: center;
+    font-size: 1.5em;
+    color: #163E6C;
+  }
+  
+  .result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .result-table th,
+  .result-table td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+    font-family: 'PT Astra Sans', sans-serif;
+    font-size: 1em;
+    color: black;
+  }
+  
+  .result-table th {
+    background-color: #D20A11;
+    color: #EBE6D6;
+  }
+  
+  .result-table td {
+    background-color: rgb(154, 204, 240);
+  }
+  

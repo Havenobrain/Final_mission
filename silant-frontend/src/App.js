@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import WelcomePage from './components/WelcomePage';
 import MainPage from './components/MainPage';
 import Login from './components/Login';
+import DictionaryItem from './components/DictionaryItem';
+import MachineTable from './components/MachineTable';
+import MaintenanceTable from './components/MaintenanceTable';
+import ComplaintTable from './components/ComplaintTable';
 import './App.css';
 
 const App = () => {
@@ -28,14 +32,12 @@ const App = () => {
         <main>
           <Routes>
             <Route path="/" element={<WelcomePage />} />
-            <Route 
-              path="/main" 
-              element={isLoggedIn ? <MainPage /> : <Navigate to="/login" />}
-            />
-            <Route 
-              path="/login" 
-              element={<Login onLogin={handleLogin} />} 
-            />
+            <Route path="/main" element={isLoggedIn ? <MainPage /> : <Navigate to="/login" />} />
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
+            <Route path="/machinetable" element={<MachineTable />} />
+            <Route path="/maintenancetable" element={<MaintenanceTable />} />
+            <Route path="/complainttable" element={<ComplaintTable />} />
+            <Route path="/dictionary/:model/:id" element={<DictionaryItem />} />
           </Routes>
         </main>
         <Footer />
@@ -45,5 +47,8 @@ const App = () => {
 };
 
 export default App;
+
+
+
 
 

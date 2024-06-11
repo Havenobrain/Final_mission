@@ -1,65 +1,99 @@
-import React, { useMemo } from 'react';
-import { useTable } from 'react-table';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import './ComplaintTable.css';
+import apiClient from '../apiClient';
 
-const ComplaintTable = ({ data }) => {
-  console.log('Complaint data in ComplaintTable:', data); 
+const ComplaintTable = () => {
+  const [complaints, setComplaints] = useState([]);
+  const [error, setError] = useState(null);
 
-  const columns = useMemo(
-    () => [
-      { Header: 'Зав. № машины', accessor: 'machine.serial_number' },
-      { Header: 'Дата отказа', accessor: 'complaint_date' },
-      { Header: 'Наработка, м/час', accessor: 'operating_hours' },
-      { Header: 'Узел отказа', accessor: 'failure_node.name' },
-      { Header: 'Описание отказа', accessor: 'failure_description' },
-      { Header: 'Способ восстановления', accessor: 'recovery_method.name' },
-      { Header: 'Используемые запасные части', accessor: 'parts_used' },
-      { Header: 'Дата восстановления', accessor: 'recovery_date' },
-      { Header: 'Время простоя техники', accessor: 'downtime' },
-      { Header: 'Сервисная компания', accessor: 'service_company.username' },
-    ],
-    []
-  );
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        const response = await apiClient.get('/complaints/');
+        setComplaints(response.data);
+      } catch (error) {
+        console.error('Error fetching complaints:', error);
+        setError('Error fetching complaints');
+      }
+    };
 
-  const tableInstance = useTable({ columns, data });
+    fetchComplaints();
+  }, []);
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = tableInstance;
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (complaints.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <table {...getTableProps()} style={{ width: '100%', borderCollapse: 'collapse' }}>
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()} key={column.id} style={{ border: '1px solid black', padding: '5px' }}>
-                {column.render('Header')}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()} key={row.id}>
-              {row.cells.map(cell => (
-                <td {...cell.getCellProps()} key={cell.column.id} style={{ border: '1px solid black', padding: '5px' }}>
-                  {cell.render('Cell')}
-                </td>
-              ))}
+    <div className="complaint-table-container">
+      <div className="complaint-table-wrapper">
+        <table className="complaint-fixed-header">
+          <thead>
+            <tr>
+              <th>№ Машины</th>
+              <th>Дата отказа</th>
+              <th>Наработка, м/час</th>
+              <th>Узел отказа</th>
+              <th>Описание отказа</th>
+              <th>Способ восстановления</th>
+              <th>Используемые запасные части</th>
+              <th>Дата восстановления</th>
+              <th>Время простоя техники</th>
+              <th>Сервисная компания</th>
             </tr>
-          );
-        })}
-      </tbody>
-    </table>
+          </thead>
+          <tbody>
+            {complaints.map((complaint, index) => (
+              <tr key={index}>
+                <td>{complaint.machine.serial_number || 'N/A'}</td>
+                <td>{complaint.complaint_date || 'N/A'}</td>
+                <td>{complaint.operating_hours || 'N/A'}</td>
+                <td>
+                  {complaint.failure_node ? (
+                    <Link to={`/dictionary/${complaint.failure_node.id}`}>
+                      {complaint.failure_node.name}
+                    </Link>
+                  ) : ('N/A')}
+                </td>
+                <td>{complaint.failure_description || 'N/A'}</td>
+                <td>
+                  {complaint.recovery_method ? (
+                    <Link to={`/dictionary/${complaint.recovery_method.id}`}>
+                      {complaint.recovery_method.name}
+                    </Link>
+                  ) : 'N/A'}
+                </td>
+                <td>{complaint.parts_used || 'N/A'}</td>
+                <td>{complaint.recovery_date || 'N/A'}</td>
+                <td>{complaint.downtime || 'N/A'}</td>
+                <td>{complaint.service_company || 'N/A'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 
 export default ComplaintTable;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

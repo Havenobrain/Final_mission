@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: 'http://localhost:8000/api', // Убедитесь, что URL правильный
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 apiClient.interceptors.request.use(config => {
@@ -19,7 +22,7 @@ apiClient.interceptors.response.use(response => {
 }, async error => {
   const originalRequest = error.config;
 
-  if (error.response.status === 401 && !originalRequest._retry) {
+  if (error.response && error.response.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true;
     const refreshToken = localStorage.getItem('refresh_token');
     try {
@@ -39,5 +42,10 @@ apiClient.interceptors.response.use(response => {
 });
 
 export default apiClient;
+
+
+
+
+
 
 

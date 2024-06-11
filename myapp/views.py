@@ -1,58 +1,64 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Machine, Maintenance, Complaint
-from .serializers import MachineSerializer, MaintenanceSerializer, ComplaintSerializer
-from .permissions import IsManager, IsServiceCompany, IsClient
+from .models import Machine, Maintenance, Complaint, Dictionary
+from .serializers import MachineSerializer, MaintenanceSerializer, ComplaintSerializer, DictionarySerializer
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view, action
+
+@api_view(['GET'])
+def machine_detail_by_serial(request, serial_number):
+    try:
+        machine = Machine.objects.get(serial_number=serial_number)
+        serializer = MachineSerializer(machine)
+        return Response(serializer.data)
+    except Machine.DoesNotExist:
+        return Response({"detail": "Not found."}, status=404)
+
+
+class DictionaryItemView(APIView):
+    def get(self, request, id, format=None):
+        try:
+            dictionary_item = Dictionary.objects.get(id=id)
+            serializer = DictionarySerializer(dictionary_item)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Dictionary.DoesNotExist:
+            return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
 
 class MachineViewSet(viewsets.ModelViewSet):
     queryset = Machine.objects.all()
     serializer_class = MachineSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             permission_classes = [AllowAny]
-        elif self.action in ['create', 'update', 'partial_update', 'destroy']:
-            permission_classes = [IsAuthenticated]
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
-        user = self.request.user
-        if not user.is_authenticated:
-            return Machine.objects.all().only('serial_number', 'model', 'engine_model', 'transmission_model', 'drive_axle_model', 'steer_axle_model')
-        elif user.groups.filter(name='Клиент').exists():
-            return Machine.objects.filter(client=user)
-        elif user.groups.filter(name='Сервисная организация').exists():
-            return Machine.objects.filter(service_company=user)
-        elif user.groups.filter(name='Менеджер').exists():
-            return Machine.objects.all()
-        else:
-            return Machine.objects.none()
+        serial_number = self.request.query_params.get('serial_number', None)
+        if serial_number:
+            return Machine.objects.filter(serial_number=serial_number)
+        return Machine.objects.all()
 
 class MaintenanceViewSet(viewsets.ModelViewSet):
     queryset = Maintenance.objects.all()
     serializer_class = MaintenanceSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
-            permission_classes = [IsManager | IsServiceCompany]
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [IsAuthenticated]
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
-        user = self.request.user
-        if user.groups.filter(name='Менеджер').exists():
-            return Maintenance.objects.all()
-        elif user.groups.filter(name='Сервисная организация').exists():
-            return Maintenance.objects.filter(machine__service_company=user)
-        elif user.groups.filter(name='Клиент').exists():
-            return Maintenance.objects.filter(machine__client=user)
-        else:
-            return Maintenance.objects.none()
+        return Maintenance.objects.all()
 
 class ComplaintViewSet(viewsets.ModelViewSet):
     queryset = Complaint.objects.all()
@@ -66,18 +72,19 @@ class ComplaintViewSet(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
-        user = self.request.user
-        if user.groups.filter(name='Менеджер').exists():
-            return Complaint.objects.all()
-        elif user.groups.filter(name='Сервисная организация').exists():
-            return Complaint.objects.filter(machine__service_company=user)
-        elif user.groups.filter(name='Клиент').exists():
-            return Complaint.objects.filter(machine__client=user)
-        else:
-            return Complaint.objects.none()
+        return Complaint.objects.all()
 
     @action(detail=False, methods=['get'])
     def all_complaints(self, request):
         complaints = self.get_queryset()
         serializer = self.get_serializer(complaints, many=True)
         return Response(serializer.data)
+
+@api_view(['GET'])
+def machine_detail_by_serial(request, serial_number):
+    try:
+        machine = Machine.objects.get(serial_number=serial_number)
+        serializer = MachineSerializer(machine)
+        return Response(serializer.data)
+    except Machine.DoesNotExist:
+        return Response({"detail": "Not found."}, status=404)
