@@ -37,7 +37,7 @@ const App = () => {
             <Route path="/machinetable" element={<MachineTable />} />
             <Route path="/maintenancetable" element={<MaintenanceTable />} />
             <Route path="/complainttable" element={<ComplaintTable />} />
-            <Route path="/dictionary/:model/:id" element={<DictionaryItem />} />
+            <Route path="/dictionary/:model/:name" element={<DictionaryItem />} />
           </Routes>
         </main>
         <Footer />
@@ -47,7 +47,6 @@ const App = () => {
 };
 
 export default App;
-
 
 
 

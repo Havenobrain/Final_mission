@@ -9,11 +9,11 @@ const WelcomePage = () => {
   const [error, setError] = useState('');
 
   const handleSearch = async (e) => {
-    e.preventDefault(); // Prevent the page from refreshing
+    e.preventDefault(); 
     try {
       const response = await axios.get(`http://localhost:8000/api/machines/?serial_number=${serialNumber}`);
       if (response.data.length > 0) {
-        setMachine(response.data[0]); // Assuming the response is an array and we need the first item
+        setMachine(response.data[0]); 
         setError('');
       } else {
         setMachine(null);

@@ -1,0 +1,38 @@
+.dictionary-item-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dictionary-item-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .dictionary-item-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .dictionary-item-table .label {
+    font-weight: bold;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #000;
+  }
+  
+  .dictionary-item-table .value {
+    padding: 10px;
+    border: 1px solid #000;
+    background-color: rgb(154, 204, 240);
+  }
+  
+  .dictionary-item-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  

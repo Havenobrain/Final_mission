@@ -11,6 +11,7 @@ const MachineTable = () => {
     const fetchMachines = async () => {
       try {
         const response = await apiClient.get('/machines/');
+        console.log('Fetched Machines:', response.data);
         setMachines(response.data);
       } catch (error) {
         console.error('Error fetching machines:', error);
@@ -58,30 +59,30 @@ const MachineTable = () => {
               <tr key={index}>
                 <td>{machine.serial_number || 'N/A'}</td>
                 <td>
-                  <Link to={`/dictionary/model/${machine.model?.id}`}>
+                  <Link to={`/dictionary/model/${machine.model}`}>
                     {machine.model || 'N/A'}
                   </Link>
                 </td>
                 <td>
-                  <Link to={`/dictionary/engine_model/${machine.engine_model?.id}`}>
+                  <Link to={`/dictionary/engine_model/${machine.engine_model}`}>
                     {machine.engine_model || 'N/A'}
                   </Link>
                 </td>
                 <td>{machine.engine_number || 'N/A'}</td>
                 <td>
-                  <Link to={`/dictionary/transmission_model/${machine.transmission_model?.id}`}>
+                  <Link to={`/dictionary/transmission_model/${machine.transmission_model}`}>
                     {machine.transmission_model || 'N/A'}
                   </Link>
                 </td>
                 <td>{machine.transmission_number || 'N/A'}</td>
                 <td>
-                  <Link to={`/dictionary/drive_axle_model/${machine.drive_axle_model?.id}`}>
+                  <Link to={`/dictionary/drive_axle_model/${machine.drive_axle_model}`}>
                     {machine.drive_axle_model || 'N/A'}
                   </Link>
                 </td>
                 <td>{machine.drive_axle_number || 'N/A'}</td>
                 <td>
-                  <Link to={`/dictionary/steer_axle_model/${machine.steer_axle_model?.id}`}>
+                  <Link to={`/dictionary/steer_axle_model/${machine.steer_axle_model}`}>
                     {machine.steer_axle_model || 'N/A'}
                   </Link>
                 </td>
@@ -102,6 +103,11 @@ const MachineTable = () => {
 };
 
 export default MachineTable;
+
+
+
+
+
 
 
 

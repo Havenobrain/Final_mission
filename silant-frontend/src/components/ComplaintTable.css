@@ -5,13 +5,13 @@
 
 .complaint-table-wrapper {
   overflow-x: auto;
-  max-height: 400px; 
+  max-height: 400px;
 }
 
 .complaint-fixed-header thead th {
   position: sticky;
   top: 0;
-  background-color: white; 
+  background-color: white;
   z-index: 1;
   border: 1px solid #000;
   padding: 8px;
@@ -23,7 +23,8 @@
   table-layout: auto;
 }
 
-.complaint-fixed-header th, .complaint-fixed-header td {
+.complaint-fixed-header th,
+.complaint-fixed-header td {
   border: 1px solid #000;
   padding: 8px;
   min-width: 100px;
@@ -32,15 +33,23 @@
 
 .complaint-fixed-header td {
   background-color: rgb(154, 204, 240);
-  white-space: normal; 
-  height: auto; 
+  white-space: normal;
+  height: auto;
 }
 
-.complaint-fixed-header td:first-child,
+.complaint-fixed-header td:first-child {
+  background-color: white;
+}
+
 .complaint-fixed-header th:first-child {
-  background-color: white; 
+  background-color: white;
   position: sticky;
   left: 0;
   z-index: 2;
 }
 
+
+.complaint-fixed-header td:nth-child(4),
+.complaint-fixed-header th:nth-child(4) {
+  white-space: nowrap;
+}

@@ -55,7 +55,7 @@ const ComplaintTable = () => {
                 <td>{complaint.operating_hours || 'N/A'}</td>
                 <td>
                   {complaint.failure_node ? (
-                    <Link to={`/dictionary/${complaint.failure_node.id}`}>
+                    <Link to={`/dictionary/failure_node/${encodeURIComponent(complaint.failure_node.name)}`}>
                       {complaint.failure_node.name}
                     </Link>
                   ) : ('N/A')}
@@ -63,7 +63,7 @@ const ComplaintTable = () => {
                 <td>{complaint.failure_description || 'N/A'}</td>
                 <td>
                   {complaint.recovery_method ? (
-                    <Link to={`/dictionary/${complaint.recovery_method.id}`}>
+                    <Link to={`/dictionary/recovery_method/${encodeURIComponent(complaint.recovery_method.name)}`}>
                       {complaint.recovery_method.name}
                     </Link>
                   ) : 'N/A'}
@@ -82,6 +82,8 @@ const ComplaintTable = () => {
 };
 
 export default ComplaintTable;
+
+
 
 
 

@@ -5,15 +5,15 @@
 
 .maintenance-table-wrapper {
     overflow-x: auto;
-    max-height: 400px; 
+    max-height: 400px;
 }
 
 .maintenance-fixed-header thead th {
     position: sticky;
     top: 0;
-    background-color: white; 
+    background-color: white;
     z-index: 1;
-    border: 1px solid #000; 
+    border: 1px solid #000;
     padding: 8px;
 }
 
@@ -26,22 +26,23 @@
 .maintenance-fixed-header th, .maintenance-fixed-header td {
     border: 1px solid #000;
     padding: 8px;
-    min-width: 100px;
+    min-width: 150px;
     white-space: nowrap; 
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    height: 60px;
 }
 
 .maintenance-fixed-header td {
-    background-color:  rgb(154, 204, 240);
-    white-space: normal; 
-    height: auto; 
+    background-color: rgb(154, 204, 240);
 }
 
 .maintenance-fixed-header td:first-child {
-    background-color: white; 
+    background-color: white;
 }
 
 .maintenance-fixed-header th:first-child {
-    background-color: white; 
+    background-color: white;
     position: sticky;
     left: 0;
     z-index: 2;

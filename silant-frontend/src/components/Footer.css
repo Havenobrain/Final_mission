@@ -33,6 +33,7 @@
 @media (max-width: 768px) {
   .footer {
     flex-direction: column;
+    align-items: center;
   }
 
   .footer-logo {
@@ -42,5 +43,6 @@
 
   .contact-info, .year-info {
     text-align: center;
+    margin: 5px 0;
   }
 }

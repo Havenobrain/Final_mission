@@ -1,8 +1,6 @@
 from rest_framework import serializers
 from .models import Machine, Maintenance, Complaint, Dictionary
 
-
-
 class DictionarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Dictionary
@@ -34,6 +32,7 @@ class MaintenanceSerializer(serializers.ModelSerializer):
     maintenance_type = DictionarySerializer(read_only=True)
     service_company = serializers.CharField(source='service_company.username', required=False)
     machine = MachineSerializer(read_only=True)
+    organization = DictionarySerializer(read_only=True)
 
     class Meta:
         model = Maintenance
@@ -58,5 +57,4 @@ class ComplaintSerializer(serializers.ModelSerializer):
     class Meta:
         model = Complaint
         fields = '__all__'
-
 

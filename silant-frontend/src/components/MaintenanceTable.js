@@ -11,6 +11,7 @@ const MaintenanceTable = () => {
     const fetchMaintenances = async () => {
       try {
         const response = await apiClient.get('/maintenances/');
+        console.log('Fetched Maintenances:', response.data);
         setMaintenances(response.data);
       } catch (error) {
         console.error('Error fetching maintenances:', error);
@@ -51,7 +52,7 @@ const MaintenanceTable = () => {
                 <td>{maintenance.machine.serial_number || 'N/A'}</td>
                 <td>
                   {maintenance.maintenance_type ? (
-                    <Link to={`/dictionary/${maintenance.maintenance_type.id}`}>
+                    <Link to={`/dictionary/maintenance_type/${encodeURIComponent(maintenance.maintenance_type.name)}`}>
                       {maintenance.maintenance_type.name}
                     </Link>
                   ) : (
@@ -62,16 +63,16 @@ const MaintenanceTable = () => {
                 <td>{maintenance.runtime_hours || 'N/A'}</td>
                 <td>{maintenance.order_number || 'N/A'}</td>
                 <td>{maintenance.order_date || 'N/A'}</td>
-                <td>{maintenance.organization || 'N/A'}</td>
                 <td>
-                  {maintenance.service_company ? (
-                    <Link to={`/dictionary/${maintenance.service_company.id}`}>
-                      {maintenance.service_company}
+                  {maintenance.organization ? (
+                    <Link to={`/dictionary/organization/${encodeURIComponent(maintenance.organization.name)}`}>
+                      {maintenance.organization.name}
                     </Link>
                   ) : (
                     'N/A'
                   )}
                 </td>
+                <td>{maintenance.service_company || 'N/A'}</td>
               </tr>
             ))}
           </tbody>
@@ -82,6 +83,22 @@ const MaintenanceTable = () => {
 };
 
 export default MaintenanceTable;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -39,7 +39,7 @@ const MainPage = () => {
       setMaintenances(data);
     } catch (error) {
       console.error('Error fetching maintenances:', error);
-      throw error; // Бросить ошибку для обработки в fetchData
+      throw error; 
     }
   };
 
@@ -51,7 +51,7 @@ const MainPage = () => {
       setComplaints(data);
     } catch (error) {
       console.error('Error fetching complaints:', error);
-      throw error; // Бросить ошибку для обработки в fetchData
+      throw error; 
     }
   };
 
